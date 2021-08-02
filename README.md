@@ -23,5 +23,5 @@ The program is currenly built to run from the `src` folder. It will load the con
 ## TODO:
 - Implement passing filepaths for the input and output files as arguments
 - Implement the creation of the IO to and from the wrapper (bus, control, clock, reset)
-- Implement total wrapper creationq (perhaps using some kind of base template)
+- Implement total wrapper creation (perhaps using some kind of base template)
 - Implement better error handling
