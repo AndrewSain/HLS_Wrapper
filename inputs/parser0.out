@@ -1,0 +1,17 @@
+<<Inputs>>
+io_name(phi) bus(y)([12:0]) vec(y)(6,9,2);
+io_name(th11i) bus(y)([6:0]) vec(y)(3,3,4);
+io_name(thi) bus(y)([6:0]) vec(y)(6,9,2);
+io_name(vli) bus(y)([1:0]) vec(y)(6,9);
+io_name(me11ai) bus(y)([1:0]) vec(y)(3,3);
+io_name(cpati) bus(y)([3:0]) vec(y)(6,9,2);
+io_name(cppf_rx_valid) bus(y)([6:0]) vec(n);
+io_name(ap_clk) bus(n) vec(n);
+io_name(ap_rst) bus(n) vec(n);
+<<Outputs>>
+io_name(pho) bus(y)([12:0]) vec(y)(3,6,9,2);
+io_name(th11o) bus(y)([6:0]) vec(y)(3,3,3,4);
+io_name(tho) bus(y)([6:0]) vec(y)(3,6,9,2);
+io_name(vlo) bus(y)([1:0]) vec(y)(3,6,9);
+io_name(me11ao) bus(y)([1:0]) vec(y)(3,3,3);
+io_name(cpato) bus(y)([3:0]) vec(y)(3,6,9,2);
