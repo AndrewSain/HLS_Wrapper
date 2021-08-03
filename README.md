@@ -16,7 +16,7 @@ g++ main.cpp -std=c++17 -o hls_wrapper
 in the `src` forlder.
 
 ## Usage
-The program is currenly built to run from the `src` folder. It will load the contents of `inputs/parser1.out`, process them, and output the results to `outputs/proto_wrapper_new.sv`. Two example inputs and outputs are given. If the input file is correctly placed, simply run:
+The program is currenly built to run from the `src` folder. It will load the contents of `inputs/parser1.out`, process them, and output the results to `outputs/proto_wrapper_new.sv`. An example input and output is given. If the input file is correctly placed, simply run:
 ```
 ./hls_wrapper
 ```
