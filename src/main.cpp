@@ -1,8 +1,10 @@
+#include "template.h"
 #include "parsed_io.h"
 #include "wrapper.h"
 #include <iterator>
 #include <sstream>
 #include <fstream>
+#include <optional>
 
 //#define __use_stdin__
 
@@ -31,11 +33,50 @@ int main() {
 
     
     // Create necessary strings for output generation
-    /// Create input/output bus instantiations for the wrapper
+    std::vector<std::string> upper_clk_rst;
+    std::vector<std::string> conn_clk_rst;
 
+    /// Handle the clock and reset
+    //// Check that ap_clk and ap_rst exist
+    {
+        bool has_clk = false;
+        bool has_rst = false;
+        for (const auto& io : parsed_IO) {
+            if ( io.io_name == "ap_clk" ) { has_clk = true; }
+            if ( io.io_name == "ap_rst" ) { has_rst = true; }
+        }
+        if ( ( has_clk != true ) || ( has_rst != true ) ) {
+            std::cout << "ERROR: Main: Missing \"ap_clk\" and/or \"ap_rst\" as io from parsed io\n";
+            return -1;
+        }
+    }
 
-    /// Create the control wires for the wrapper
+    //// Create wrapper module IO instantiaions for clock and reset
+    upper_clk_rst.push_back("input wire clock,\n");
+    upper_clk_rst.push_back("input wire reset,\n");
 
+    //// Create connections for wrapper to tl for clock and reset
+    conn_clk_rst.push_back(".ap_clk(clock),\n");
+    conn_clk_rst.push_back(".ap_rst(reset),\n");
+
+    /// Create wrapper module io for bus wires/registers
+    std::vector<std::string> upper_bus_wires;
+    for (const auto& io : parsed_IO) {
+        if ((io.io_name != "ap_clk") && (io.io_name != "ap_rst")) {
+            upper_bus_wires.push_back( write_upper_bus_wires(io.io_name, io.io_type, io.io_bus) );
+        }
+    }
+    
+    /// Create wrapper module io for control wires
+    std::vector<std::string> upper_ctrl_wires;
+    for (const auto& io : parsed_IO) {
+        if ((io.io_name != "ap_clk") && (io.io_name != "ap_rst")) {
+            upper_ctrl_wires.push_back( write_upper_ctrl_wires(io.io_name, io.io_type) );
+        }
+    }
+    upper_ctrl_wires.back().pop_back();
+    upper_ctrl_wires.back().pop_back();
+    upper_ctrl_wires.back().push_back('\n');
 
     /// STUFFFFFF
     std::vector<std::string> io_reg_decl; /// Create register instantiations for the wrapper
@@ -113,9 +154,24 @@ int main() {
                 std::advance(itr1, 1);
             }
         }
+        // remove the comma at the end of the last connection entry
+        ap_vld_unconnected.back().back().pop_back();
+        ap_vld_unconnected.back().back().pop_back();
+        ap_vld_unconnected.back().back().push_back('\n');
     }
 
-    
+
+    // load template
+    std::optional<std::vector<std::string>> opt_template = load_template(template_filepath);
+    std::vector<std::string> template_vec;
+    try {
+        template_vec = opt_template.value();
+    } catch (const std::bad_optional_access& e) {
+        std::cout << "ERROR: Main: No Template Loaded\n";
+        return -1;
+    }
+
+
     // output to file
     /// Construct output
     std::stringstream ss_output;
@@ -154,17 +210,60 @@ int main() {
         }
     };
 
+    for (const auto& io : template_vec) {
+        if        (io == "//<<module_io>>") {
+            ss_output << "\n// Module IO - Clock/Reset\n\n";
+            lmdb_vec1_to_ss_output(upper_clk_rst);
+
+            ss_output << "\n// Module IO - Bus Signals\n\n";
+            lmdb_vec1_to_ss_output(upper_bus_wires);
+
+            ss_output << "\n// Module IO - Control Signals\n\n";
+            lmdb_vec1_to_ss_output(upper_ctrl_wires);
+
+        } else if (io == "//<<reg_wire_dec>>") {
+            ss_output << "\n// Register/Wire Declarations\n\n";
+            lmbd_make_variadic(lmdb_vec1_to_ss_output, io_reg_decl, wire_connection_decl);
+
+        } else if (io == "//<<tl_conn>>") {
+            ss_output << "\n// IO Connections\n\n";
+            lmbd_make_variadic(lmbd_vec2_to_ss_output, conn_clk_rst, tl_io_connected, ap_vld_unconnected);
+            
+        } else if (io == "//<<rst_logic>>") {
+            ss_output << "\n// RESET LOGIC\n\n";
+            lmdb_vec1_to_ss_output(reset_logic);
+            
+        } else if (io == "//<<shift_logic>>") {
+            ss_output << "\n// SHIFT LOGIC\n\n";
+            lmbd_shift_to_ss_output(parsed_IO, shift_in_logic, shift_out_logic);
+            
+        } else {
+            ss_output << io << "\n";
+        }
+    }
+
+    /*
+    ss_output << "\n// Module IO - Clock/Reset\n\n";
+    lmdb_vec1_to_ss_output(upper_clk_rst);
+
+    ss_output << "\n// Module IO - Bus Signals\n\n";
+    lmdb_vec1_to_ss_output(upper_bus_wires);
+
+    ss_output << "\n// Module IO - Control Signals\n\n";
+    lmdb_vec1_to_ss_output(upper_ctrl_wires);
+
     ss_output << "\n// Register/Wire Declarations\n\n";
     lmbd_make_variadic(lmdb_vec1_to_ss_output, io_reg_decl, wire_connection_decl);
 
     ss_output << "\n// IO Connections\n\n";
-    lmbd_make_variadic(lmbd_vec2_to_ss_output, tl_io_connected, ap_vld_unconnected);
+    lmbd_make_variadic(lmbd_vec2_to_ss_output, conn_clk_rst, tl_io_connected, ap_vld_unconnected);
     
     ss_output << "\n// SHIFT LOGIC\n\n";
     lmbd_shift_to_ss_output(parsed_IO, shift_in_logic, shift_out_logic);
 
     ss_output << "\n// RESET LOGIC\n\n";
     lmdb_vec1_to_ss_output(reset_logic);
+    */
 
     /// Output the ss_output to the output file
     std::ofstream output_file(glob_filepath, std::ios::trunc);
@@ -195,21 +294,3 @@ std::vector<GEN> move_to_new_vec(
 
     return ret_vec;
 }
-
-
-/*
-template<typename... GEN>
-void one_for_all(GEN& ... args) {
-    ((args += 1), ...);
-}
-*/
-
-
-
-
-
-
-
-
-
-

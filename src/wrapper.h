@@ -19,7 +19,7 @@ enum reg_io_type {
 
 // Constants
 /// Path Directory
-static const std::string glob_filepath = "../outputs/proto_wrapper_new.sv";
+static const std::string glob_filepath = "../outputs/wrapper1.sv";
 
 /// Array size variables
 //static const uint num_names = 15; // TODO: REMOVE
@@ -29,6 +29,35 @@ static const uint max_dim = 4;
 
 
 // Functions
+/// creates the wrapper module's bus wires/registers for the parsed io
+std::string write_upper_bus_wires(
+    const std::string &name, const parsed_IO::reg_io_type &type, const std::string &bus
+){
+    std::stringstream temp_ss;
+    if (type == parsed_IO::INPUT_REG ) {
+        temp_ss << "input  wire ";
+    } else {
+        temp_ss << "output reg ";
+    }
+    temp_ss << bus << " bus_" << name << ",\n";
+    std::string out_string = temp_ss.str();
+    return out_string;
+}
+
+/// creates the wrapper module's control wires
+std::string write_upper_ctrl_wires(
+    const std::string &name, const parsed_IO::reg_io_type &type
+){
+    std::stringstream temp_ss;
+    if ( type == parsed_IO::INPUT_REG ) {
+        temp_ss << "input wire feed_in_" << name << ",\n";;
+    } else {
+        temp_ss << "input wire feed_out_" << name << ",\n";;
+        temp_ss << "input wire load_out_" << name << ",\n";;
+    }
+    return temp_ss.str();
+}
+
 /// creates the rolled, wrapper registers
 std::string rolled_io_reg_decl(
     const std::string &common_name, const std::string &bus, const std::vector<int> &dimensions

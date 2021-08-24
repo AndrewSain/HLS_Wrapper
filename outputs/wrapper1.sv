@@ -1,3 +1,64 @@
+`timescale 1 ns / 1 ps
+
+module wrapper_tf(
+
+// Module IO - Clock/Reset
+
+input wire clock,
+input wire reset,
+
+// Module IO - Bus Signals
+
+input  wire [5:0] bus_time_i,
+input  wire [1:0] bus_vl_i,
+input  wire [3:0] bus_q_i,
+input  wire [3:0] bus_cpatr_i,
+input  wire [12:0] bus_ph_i,
+input  wire [6:0] bus_th11_i,
+input  wire [6:0] bus_th_i,
+input  wire [6:0] bus_phzvl_i,
+input  wire [43:0] bus_ph_hit_i,
+output reg [5:0] bus_time_o,
+output reg [1:0] bus_vl_o,
+output reg [3:0] bus_q_o,
+output reg [3:0] bus_cpatr_o,
+output reg [12:0] bus_ph_o,
+output reg [6:0] bus_th11_o,
+output reg [6:0] bus_th_o,
+output reg [6:0] bus_phzvl_o,
+output reg [43:0] bus_ph_hit_o,
+
+// Module IO - Control Signals
+
+input wire feed_in_time_i,
+input wire feed_in_vl_i,
+input wire feed_in_q_i,
+input wire feed_in_cpatr_i,
+input wire feed_in_ph_i,
+input wire feed_in_th11_i,
+input wire feed_in_th_i,
+input wire feed_in_phzvl_i,
+input wire feed_in_ph_hit_i,
+input wire feed_out_time_o,
+input wire load_out_time_o,
+input wire feed_out_vl_o,
+input wire load_out_vl_o,
+input wire feed_out_q_o,
+input wire load_out_q_o,
+input wire feed_out_cpatr_o,
+input wire load_out_cpatr_o,
+input wire feed_out_ph_o,
+input wire load_out_ph_o,
+input wire feed_out_th11_o,
+input wire load_out_th11_o,
+input wire feed_out_th_o,
+input wire load_out_th_o,
+input wire feed_out_phzvl_o,
+input wire load_out_phzvl_o,
+input wire feed_out_ph_hit_o,
+input wire load_out_ph_hit_o
+);
+
 
 // Register/Wire Declarations
 
@@ -29,8 +90,12 @@ wire [6:0] wire_th_o[0:0][0:2][0:2][0:3];
 wire [6:0] wire_phzvl_o[0:0][0:12][0:8];
 wire [43:0] wire_ph_hit_o[0:0][0:12][0:8];
 
+    coord_delay_tl UUT (
+
 // IO Connections
 
+.ap_clk(clock),
+.ap_rst(reset),
 .time_i_0_0_0_V(reg_time_i[0][0][0]),
 .time_i_0_0_1_V(reg_time_i[0][0][1]),
 .time_i_0_1_0_V(reg_time_i[0][1][0]),
@@ -3594,7 +3659,161 @@ wire [43:0] wire_ph_hit_o[0:0][0:12][0:8];
 .ph_hit_o_0_12_5_V_ap_vld(),
 .ph_hit_o_0_12_6_V_ap_vld(),
 .ph_hit_o_0_12_7_V_ap_vld(),
-.ph_hit_o_0_12_8_V_ap_vld(),
+.ph_hit_o_0_12_8_V_ap_vld()
+    );
+
+    integer i;
+    integer j;
+    integer k;
+    integer l;
+
+    always @(posedge clock) begin
+        if (reset == 1'h1) begin
+
+// RESET LOGIC
+
+for (i=0; i<7; i=i+1) begin
+	for (j=0; j<9; j=j+1) begin
+		for (k=0; k<2; k=k+1) begin
+			reg_time_i[i][j][k] <= 0;
+		end
+	end
+end
+for (i=0; i<13; i=i+1) begin
+	for (j=0; j<9; j=j+1) begin
+		reg_vl_i[i][j] <= 0;
+	end
+end
+for (i=0; i<13; i=i+1) begin
+	for (j=0; j<9; j=j+1) begin
+		for (k=0; k<3; k=k+1) begin
+			reg_q_i[i][j][k] <= 0;
+		end
+	end
+end
+for (i=0; i<6; i=i+1) begin
+	for (j=0; j<9; j=j+1) begin
+		for (k=0; k<2; k=k+1) begin
+			reg_cpatr_i[i][j][k] <= 0;
+		end
+	end
+end
+for (i=0; i<6; i=i+1) begin
+	for (j=0; j<9; j=j+1) begin
+		for (k=0; k<2; k=k+1) begin
+			reg_ph_i[i][j][k] <= 0;
+		end
+	end
+end
+for (i=0; i<6; i=i+1) begin
+	for (j=0; j<9; j=j+1) begin
+		for (k=0; k<2; k=k+1) begin
+			reg_th11_i[i][j][k] <= 0;
+		end
+	end
+end
+for (i=0; i<3; i=i+1) begin
+	for (j=0; j<3; j=j+1) begin
+		for (k=0; k<4; k=k+1) begin
+			reg_th_i[i][j][k] <= 0;
+		end
+	end
+end
+for (i=0; i<13; i=i+1) begin
+	for (j=0; j<9; j=j+1) begin
+		reg_phzvl_i[i][j] <= 0;
+	end
+end
+for (i=0; i<13; i=i+1) begin
+	for (j=0; j<9; j=j+1) begin
+		reg_ph_hit_i[i][j] <= 0;
+	end
+end
+for (i=0; i<1; i=i+1) begin
+	for (j=0; j<7; j=j+1) begin
+		for (k=0; k<9; k=k+1) begin
+			for (l=0; l<2; l=l+1) begin
+				reg_time_o[i][j][k][l] <= 0;
+			end
+		end
+	end
+end
+bus_time_o <= 0;
+for (i=0; i<1; i=i+1) begin
+	for (j=0; j<13; j=j+1) begin
+		for (k=0; k<9; k=k+1) begin
+			reg_vl_o[i][j][k] <= 0;
+		end
+	end
+end
+bus_vl_o <= 0;
+for (i=0; i<1; i=i+1) begin
+	for (j=0; j<13; j=j+1) begin
+		for (k=0; k<9; k=k+1) begin
+			for (l=0; l<3; l=l+1) begin
+				reg_q_o[i][j][k][l] <= 0;
+			end
+		end
+	end
+end
+bus_q_o <= 0;
+for (i=0; i<1; i=i+1) begin
+	for (j=0; j<6; j=j+1) begin
+		for (k=0; k<9; k=k+1) begin
+			for (l=0; l<2; l=l+1) begin
+				reg_cpatr_o[i][j][k][l] <= 0;
+			end
+		end
+	end
+end
+bus_cpatr_o <= 0;
+for (i=0; i<1; i=i+1) begin
+	for (j=0; j<6; j=j+1) begin
+		for (k=0; k<9; k=k+1) begin
+			for (l=0; l<2; l=l+1) begin
+				reg_ph_o[i][j][k][l] <= 0;
+			end
+		end
+	end
+end
+bus_ph_o <= 0;
+for (i=0; i<1; i=i+1) begin
+	for (j=0; j<6; j=j+1) begin
+		for (k=0; k<9; k=k+1) begin
+			for (l=0; l<2; l=l+1) begin
+				reg_th11_o[i][j][k][l] <= 0;
+			end
+		end
+	end
+end
+bus_th11_o <= 0;
+for (i=0; i<1; i=i+1) begin
+	for (j=0; j<3; j=j+1) begin
+		for (k=0; k<3; k=k+1) begin
+			for (l=0; l<4; l=l+1) begin
+				reg_th_o[i][j][k][l] <= 0;
+			end
+		end
+	end
+end
+bus_th_o <= 0;
+for (i=0; i<1; i=i+1) begin
+	for (j=0; j<13; j=j+1) begin
+		for (k=0; k<9; k=k+1) begin
+			reg_phzvl_o[i][j][k] <= 0;
+		end
+	end
+end
+bus_phzvl_o <= 0;
+for (i=0; i<1; i=i+1) begin
+	for (j=0; j<13; j=j+1) begin
+		for (k=0; k<9; k=k+1) begin
+			reg_ph_hit_o[i][j][k] <= 0;
+		end
+	end
+end
+bus_ph_hit_o <= 0;
+        end else begin
 
 // SHIFT LOGIC
 
@@ -4318,147 +4537,7 @@ end else begin
 	end
 	bus_ph_hit_o <= bus_ph_hit_o;
 end
+        end
+    end
 
-// RESET LOGIC
-
-for (i=0; i<7; i=i+1) begin
-	for (j=0; j<9; j=j+1) begin
-		for (k=0; k<2; k=k+1) begin
-			reg_time_i[i][j][k] <= 0;
-		end
-	end
-end
-for (i=0; i<13; i=i+1) begin
-	for (j=0; j<9; j=j+1) begin
-		reg_vl_i[i][j] <= 0;
-	end
-end
-for (i=0; i<13; i=i+1) begin
-	for (j=0; j<9; j=j+1) begin
-		for (k=0; k<3; k=k+1) begin
-			reg_q_i[i][j][k] <= 0;
-		end
-	end
-end
-for (i=0; i<6; i=i+1) begin
-	for (j=0; j<9; j=j+1) begin
-		for (k=0; k<2; k=k+1) begin
-			reg_cpatr_i[i][j][k] <= 0;
-		end
-	end
-end
-for (i=0; i<6; i=i+1) begin
-	for (j=0; j<9; j=j+1) begin
-		for (k=0; k<2; k=k+1) begin
-			reg_ph_i[i][j][k] <= 0;
-		end
-	end
-end
-for (i=0; i<6; i=i+1) begin
-	for (j=0; j<9; j=j+1) begin
-		for (k=0; k<2; k=k+1) begin
-			reg_th11_i[i][j][k] <= 0;
-		end
-	end
-end
-for (i=0; i<3; i=i+1) begin
-	for (j=0; j<3; j=j+1) begin
-		for (k=0; k<4; k=k+1) begin
-			reg_th_i[i][j][k] <= 0;
-		end
-	end
-end
-for (i=0; i<13; i=i+1) begin
-	for (j=0; j<9; j=j+1) begin
-		reg_phzvl_i[i][j] <= 0;
-	end
-end
-for (i=0; i<13; i=i+1) begin
-	for (j=0; j<9; j=j+1) begin
-		reg_ph_hit_i[i][j] <= 0;
-	end
-end
-for (i=0; i<1; i=i+1) begin
-	for (j=0; j<7; j=j+1) begin
-		for (k=0; k<9; k=k+1) begin
-			for (l=0; l<2; l=l+1) begin
-				reg_time_o[i][j][k][l] <= 0;
-			end
-		end
-	end
-end
-bus_time_o <= 0;
-for (i=0; i<1; i=i+1) begin
-	for (j=0; j<13; j=j+1) begin
-		for (k=0; k<9; k=k+1) begin
-			reg_vl_o[i][j][k] <= 0;
-		end
-	end
-end
-bus_vl_o <= 0;
-for (i=0; i<1; i=i+1) begin
-	for (j=0; j<13; j=j+1) begin
-		for (k=0; k<9; k=k+1) begin
-			for (l=0; l<3; l=l+1) begin
-				reg_q_o[i][j][k][l] <= 0;
-			end
-		end
-	end
-end
-bus_q_o <= 0;
-for (i=0; i<1; i=i+1) begin
-	for (j=0; j<6; j=j+1) begin
-		for (k=0; k<9; k=k+1) begin
-			for (l=0; l<2; l=l+1) begin
-				reg_cpatr_o[i][j][k][l] <= 0;
-			end
-		end
-	end
-end
-bus_cpatr_o <= 0;
-for (i=0; i<1; i=i+1) begin
-	for (j=0; j<6; j=j+1) begin
-		for (k=0; k<9; k=k+1) begin
-			for (l=0; l<2; l=l+1) begin
-				reg_ph_o[i][j][k][l] <= 0;
-			end
-		end
-	end
-end
-bus_ph_o <= 0;
-for (i=0; i<1; i=i+1) begin
-	for (j=0; j<6; j=j+1) begin
-		for (k=0; k<9; k=k+1) begin
-			for (l=0; l<2; l=l+1) begin
-				reg_th11_o[i][j][k][l] <= 0;
-			end
-		end
-	end
-end
-bus_th11_o <= 0;
-for (i=0; i<1; i=i+1) begin
-	for (j=0; j<3; j=j+1) begin
-		for (k=0; k<3; k=k+1) begin
-			for (l=0; l<4; l=l+1) begin
-				reg_th_o[i][j][k][l] <= 0;
-			end
-		end
-	end
-end
-bus_th_o <= 0;
-for (i=0; i<1; i=i+1) begin
-	for (j=0; j<13; j=j+1) begin
-		for (k=0; k<9; k=k+1) begin
-			reg_phzvl_o[i][j][k] <= 0;
-		end
-	end
-end
-bus_phzvl_o <= 0;
-for (i=0; i<1; i=i+1) begin
-	for (j=0; j<13; j=j+1) begin
-		for (k=0; k<9; k=k+1) begin
-			reg_ph_hit_o[i][j][k] <= 0;
-		end
-	end
-end
-bus_ph_hit_o <= 0;
+endmodule
