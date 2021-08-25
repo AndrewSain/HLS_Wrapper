@@ -14,20 +14,33 @@ std::vector<GEN> move_to_new_vec(
 );
 
 
-int main() {
+int main(int argc, char* argv[]) {
+    // Argument handling
+    std::string parsed_filepath;
+    std::string template_filepath;
+    std::string wrapper_filepath;
+    if (argc == 4) {
+        parsed_filepath = argv[1];
+        template_filepath = argv[2];
+        wrapper_filepath = argv[3];
+    } else if (argc == 1) {
+        parsed_filepath = default_parsed_filepath;
+        template_filepath = default_template_filepath;
+        wrapper_filepath = default_wrapper_filepath;
+    } else {
+        std::cerr << "\nERROR: Main: Invalid number of arguments\n\n";
+        return -1;
+    }
+
+
     // Usefull Lambdas
     auto lmbd_adv_all = [](int x, auto& ... iter){ (std::advance(iter, x), ...); };
     auto lmbd_make_variadic = [&](auto& func, auto& ... args){ (func(args), ...); };
 
-
+    
     // Get parsed IO
-#ifndef __use_stdin__
-    auto data = parsed_IO::parsed_data::from_file(parsed_filepath);
-    #pragma message "COMPILED TO LOAD PARSED_DATA FROM FILE"
-#else
-    auto data = parsed_IO::parsed_data::from_stdin();
-    #pragma message "COMPILED TO LOAD PARSED_DATA FROM STDIN"
-#endif
+    std::array<parsed_IO::parsed_data::parsed_data_t, 2> data;
+    data = parsed_IO::parsed_data::from_file(parsed_filepath);
     auto parsed_IO_in = parsed_IO::parsed_data::to_parsed_IO(data[0], parsed_IO::INPUT_REG);
     auto parsed_IO_out = parsed_IO::parsed_data::to_parsed_IO(data[1], parsed_IO::OUTPUT_REG);
     auto parsed_IO = move_to_new_vec(parsed_IO_in, parsed_IO_out);
@@ -59,7 +72,7 @@ int main() {
             if ( io.io_name == "ap_rst" ) { has_rst = true; }
         }
         if ( ( has_clk != true ) || ( has_rst != true ) ) {
-            std::cout << "ERROR: Main: Missing \"ap_clk\" and/or \"ap_rst\" as io from parsed io\n";
+            std::cerr << "\nERROR: Main: Missing \"ap_clk\" and/or \"ap_rst\" as io from parsed io\n\n";
             return -1;
         }
     }
@@ -123,7 +136,7 @@ int main() {
         }
     }
 
-    /// connect top-level io names to expliciter register/wire array names (i.e. ".pho_0_0_0_1_V(wire_pho[0][0][0][1]),")
+    /// connect top level io to their corresponding unrolled wrapper registers/wires (i.e. ".pho_0_0_0_1_V(wire_pho[0][0][0][1]),")
     std::vector<std::vector<std::string>> tl_io_connected;
     {
         auto itr0 = parsed_IO.begin();
@@ -147,7 +160,7 @@ int main() {
                 try {
                     temp_ret = opt_temp_ret.value();
                 } catch (const std::bad_optional_access& e) {
-                    std::cout << "\nERROR: Main: function \"tl_io_connected\" returned nothing, it encounted an error!\n\n";
+                    std::cerr << "\nERROR: Main: function \"tl_io_connected\" returned nothing, it encounted an error!\n\n";
                     return -1;
                 }
                 tl_io_connected.push_back(temp_ret);
@@ -190,7 +203,7 @@ int main() {
     try {
         template_vec = opt_template.value();
     } catch (const std::bad_optional_access& e) {
-        std::cout << "ERROR: Main: No Template Loaded\n";
+        std::cerr << "\nERROR: Main: No Template Loaded\n\n";
         return -1;
     }
 

@@ -159,7 +159,7 @@ namespace wrapper_gen {
                 }
             }
             else {
-                std::cout << "\nERROR: wrapper_gen::tl_conn::make_tl_names: Program doesn't understand a number of dimensions outside 0-4\n\n";
+                std::cerr << "\nERROR: wrapper_gen::tl_conn::make_tl_names: Program doesn't understand a number of dimensions outside 0-4\n\n";
             }
 
             return vec_output;
@@ -223,7 +223,7 @@ namespace wrapper_gen {
                 }
             }
             else {
-                std::cout << "\nERROR: wrapper_gen::tl_conn::make_unrolled_regs: Program doesn't understand a number of dimensions outside 0-4\n\n";
+                std::cerr << "\nERROR: wrapper_gen::tl_conn::make_unrolled_regs: Program doesn't understand a number of dimensions outside 0-4\n\n";
             }
 
             return vec_output;
@@ -287,7 +287,7 @@ namespace wrapper_gen {
                 }
             }
             else {
-                std::cout << "\nERROR: wrapper_gen::tl_conn::make_unrolled_wires: Program doesn't understand a number of dimensions outside 0-4\n\n";
+                std::cerr << "\nERROR: wrapper_gen::tl_conn::make_unrolled_wires: Program doesn't understand a number of dimensions outside 0-4\n\n";
             }
 
             return vec_output;
@@ -302,8 +302,8 @@ namespace wrapper_gen {
 
             // check if sizes are equal, if not return error
             if ( tl_names.size() != wr_names.size() ) {
-                std::cout << "\nERROR: wrapper_gen::tl_conn::tl_io_connected: Encounted mismatch between the number of top level registers and wrapper registers for an one common name\n";
-                std::cout << "\tio size: " << tl_names.size() << ", expl size: " << wr_names.size() << "\n\n";
+                std::cerr << "\nERROR: wrapper_gen::tl_conn::tl_io_connected: Encounted mismatch between the number of top level registers and wrapper registers for an one common name\n";
+                std::cerr << "\tio size: " << tl_names.size() << ", expl size: " << wr_names.size() << "\n\n";
                 return {};
             }
 
@@ -315,7 +315,7 @@ namespace wrapper_gen {
                 case 1 : num_indices *= dimensions[0]; // dimensions[0]
                 case 0 : break;
                 default : {
-                    std::cout << "\nERROR: wrapper_gen::tl_conn::tl_io_connected: This program is not designed handle a number of dimensions outside 0-4\n";
+                    std::cerr << "\nERROR: wrapper_gen::tl_conn::tl_io_connected: This program is not designed handle a number of dimensions outside 0-4\n";
                     return {};
                 }
             }
@@ -475,7 +475,7 @@ namespace wrapper_gen {
                     break;
                 }
                 default : {
-                    std::cout << "ERROR: wrapper_gen::shift_logic::make_shift_in: Number of dimensions is not supported!\n";
+                    std::cerr << "\nERROR: wrapper_gen::shift_logic::make_shift_in: Number of dimensions is not supported!\n\n";
                 }
             }
 
@@ -656,7 +656,7 @@ namespace wrapper_gen {
                     break;
                 }
                 default : {
-                    std::cout << "ERROR: wrapper_gen::shift_logic::make_shift_out: Number of dimensions is not supported!\n";
+                    std::cerr << "\nERROR: wrapper_gen::shift_logic::make_shift_out: Number of dimensions is not supported!\n\n";
                 }
             }
 
@@ -755,7 +755,7 @@ namespace wrapper_gen {
                     break;
                 }
                 default : {
-                    std::cout << "ERROR: wrapper_gen::reset_logic::make_reg_reset: Number of dimensions is not supported!\n";
+                    std::cerr << "\nERROR: wrapper_gen::reset_logic::make_reg_reset: Number of dimensions is not supported!\n\n";
                 }
             }
 

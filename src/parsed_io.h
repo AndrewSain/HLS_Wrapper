@@ -56,7 +56,7 @@ namespace parsed_IO {
 
         // if name wrapper not found
         if (in_string.find(std_name_wrap) == std::string::npos) {
-            std::cout << "ERROR: parsed_IO::get_io_name: no io_name wrapper\n";
+            std::cerr << "\nERROR: parsed_IO::get_io_name: no io_name wrapper\n\n";
             return ret_string;
         }
 
@@ -75,7 +75,7 @@ namespace parsed_IO {
             ret_string += c;
         }
         if (name_trigger) {
-            std::cout << "ERROR: parsed_IO::get_io_name: io_name wrapper not closed w/ \")\"\n";
+            std::cerr << "\nERROR: parsed_IO::get_io_name: io_name wrapper not closed w/ \")\"\n\n";
         }
 
         return ret_string;
@@ -93,7 +93,7 @@ namespace parsed_IO {
             (in_string.find(std_bus_wrap_1) == std::string::npos) //||
             //(in_string.find(std_bus_wrap_2) == std::string::npos)
         ){
-            std::cout << "ERROR: parsed_IO::get_io_bus: no/partial io_bus wrapper\n";
+            std::cerr << "\nERROR: parsed_IO::get_io_bus: no/partial io_bus wrapper\n\n";
             return ret_string;
         }
 
@@ -122,7 +122,7 @@ namespace parsed_IO {
                     } else if (c == 'n') { // Doesn't have a bus
                         return ret_string;
                     } else {
-                        std::cout << "ERROR: pased_IO::get_io_bus: invalid io_bus wrapper option {\"" << c << "\"}\n";
+                        std::cerr << "\nERROR: pased_IO::get_io_bus: invalid io_bus wrapper option {\"" << c << "\"}\n\n";
                         return ret_string;
                     }
                     break;
@@ -130,7 +130,7 @@ namespace parsed_IO {
                 case STATE_check_2 : {
                     ret_string += c;
                     if (c != ')' && c != '(') {
-                        std::cout << "ERROR: pased_IO::get_io_bus: no/partial io_bus wrapper\n";
+                        std::cerr << "\nERROR: pased_IO::get_io_bus: no/partial io_bus wrapper\n\n";
                         return ret_string;
                     }
                     if (ret_string == std_bus_wrap_2) {
@@ -149,7 +149,7 @@ namespace parsed_IO {
             }
         }
 
-        std::cout << "ERROR: pased_IO::get_io_bus: io_bus wrapper not closed w/ \")\"\n";
+        std::cerr << "\nERROR: pased_IO::get_io_bus: io_bus wrapper not closed w/ \")\"\n\n";
         return ret_string;
     }
 
@@ -165,7 +165,7 @@ namespace parsed_IO {
                 (in_string.find(std_vec_wrap_1) == std::string::npos) //||
                 //(in_string.find(std_vec_wrap_2) == std::string::npos)
                 ){
-            std::cout << "ERROR: parsed_IO::get_io_vec: no/partial io_vec wrapper\n";
+            std::cerr << "\nERROR: parsed_IO::get_io_vec: no/partial io_vec wrapper\n\n";
             return ret_vec;
         }
 
@@ -195,7 +195,7 @@ namespace parsed_IO {
                     } else if (c == 'n') { // Doesn't have a bus
                         return ret_vec;
                     } else {
-                        std::cout << "ERROR: pased_IO::get_io_vec: invalid io_vec wrapper option {\"" << c << "\"}\n";
+                        std::cerr << "\nERROR: pased_IO::get_io_vec: invalid io_vec wrapper option {\"" << c << "\"}\n\n";
                         return ret_vec;
                     }
                     break;
@@ -203,7 +203,7 @@ namespace parsed_IO {
                 case STATE_check_2 : {
                     temp_string += c;
                     if (c != ')' && c != '(') {
-                        std::cout << "ERROR: parsed_IO::get_io_bus: no/partial io_bus wrapper\n";
+                        std::cerr << "\nERROR: parsed_IO::get_io_bus: no/partial io_bus wrapper\n\n";
                         return ret_vec;
                     }
                     if (temp_string == std_vec_wrap_2) {
@@ -227,7 +227,7 @@ namespace parsed_IO {
             }
         }
 
-        std::cout << "ERROR: parsed_IO::get_io_vec: io_vec wrapper not closed w/ \")\"\n";
+        std::cerr << "\nERROR: parsed_IO::get_io_vec: io_vec wrapper not closed w/ \")\"\n\n";
         return ret_vec;
     }
 }

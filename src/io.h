@@ -15,9 +15,9 @@
 
 // Constants
 /// Filepaths
-static const std::string parsed_filepath =   "../inputs/parser1.out";   // parsed data pathfile
-static const std::string template_filepath = "../template/template.sv"; // Template pathfile
-static const std::string wrapper_filepath =  "../outputs/wrapper1.sv";  // generated wrapper pathfile
+static const std::string default_parsed_filepath =   "../inputs/parser.out";   // parsed data pathfile
+static const std::string default_template_filepath = "../template/template.sv"; // Template pathfile
+static const std::string default_wrapper_filepath =  "../outputs/wrapper.sv";  // generated wrapper pathfile
 
 // IO Functions
 /// IO Functions for template loading
@@ -25,7 +25,7 @@ namespace w_template {
     // Loads a template file into a vector of strings (by line)
     std::optional<std::vector<std::string>> from_file(std::string filepath){
         std::ifstream template_file(filepath);
-        if (template_file.fail()) { std::cout << "ERROR: w_template::frome_file: Failed to open template file\n"; return {}; }
+        if (template_file.fail()) { std::cerr << "ERROR: w_template::frome_file: Failed to open template file\n"; return {}; }
         std::vector<std::string> ret_vec;
         std::string temp_string;
         while (std::getline(template_file, temp_string)){
@@ -47,7 +47,7 @@ namespace parsed_IO::parsed_data {
         std::ifstream in_file;
         in_file.open(filepath.c_str());
         if (in_file.fail()) {
-            std::cout << "ERROR: parsed_IO::parsed_data: could not open input file - {" << filepath << "}\n";
+            std::cerr << "ERROR: parsed_IO::parsed_data: could not open input file - {" << filepath << "}\n";
         }
 
         // fstream to string
