@@ -1,7 +1,7 @@
 CC   = g++
 SRC  = src/main.cpp
-BIN = bin/hls_wrapper
 OPT  = -std=c++17 -o
+BIN  = bin/hls_wrapper
 
 # Input, Template, and Output file specifications
 INPT = inputs/parser.out
