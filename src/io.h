@@ -47,7 +47,7 @@ namespace parsed_IO::parsed_data {
         std::ifstream in_file;
         in_file.open(filepath.c_str());
         if (in_file.fail()) {
-            std::cout << "ERROR: parsed_IO::parsed_date: could not open input file - {" << filepath << "}\n";
+            std::cout << "ERROR: parsed_IO::parsed_data: could not open input file - {" << filepath << "}\n";
         }
 
         // fstream to string
