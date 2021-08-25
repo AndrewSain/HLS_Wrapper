@@ -15,9 +15,9 @@
 
 // Constants
 /// Filepaths
-static const std::string parsed_filepath =   "../inputs/parser2.out";   // parsed data pathfile
+static const std::string parsed_filepath =   "../inputs/parser1.out";   // parsed data pathfile
 static const std::string template_filepath = "../template/template.sv"; // Template pathfile
-static const std::string wrapper_filepath =  "../outputs/wrapper_testing.sv";  // generated wrapper pathfile
+static const std::string wrapper_filepath =  "../outputs/wrapper1.sv";  // generated wrapper pathfile
 
 // IO Functions
 /// IO Functions for template loading
