@@ -22,7 +22,7 @@ int main() {
 
     // Get parsed IO
 #ifndef __use_stdin__
-    auto data = parsed_IO::parsed_data::from_file("../inputs/parser1.out");
+    auto data = parsed_IO::parsed_data::from_file(parsed_filepath);
     #pragma message "COMPILED TO LOAD PARSED_DATA FROM FILE"
 #else
     auto data = parsed_IO::parsed_data::from_stdin();
