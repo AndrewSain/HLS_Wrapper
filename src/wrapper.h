@@ -1,4 +1,3 @@
-// Include guard
 #ifndef _WRAPPER_H_
 #define _WRAPPER_H_
 
@@ -168,7 +167,7 @@ namespace wrapper_gen {
         /// Creates the unrolled register names of wrapper registers (for connection to top level)
         std::vector<std::string> make_unrolled_regs(
                 const std::string &common_name, const std::vector<int> &dimensions
-        ) {
+        ){
             int num_dim = dimensions.size();
             std::vector<std::string> vec_output = std::vector<std::string>();
 

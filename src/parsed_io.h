@@ -28,6 +28,7 @@ namespace parsed_IO {
     }
 }
 
+
 // Namespace Function Declarations
 namespace parsed_IO {
     // Will return the io_name
@@ -40,11 +41,10 @@ namespace parsed_IO {
 namespace parsed_IO::parsed_data {
     // [(input)IO_VEC, (output)IO_VEC]
     std::array<parsed_data_t, 2> from_string(const std::string &in_string );
-    std::array<parsed_data_t, 2> from_file(const std::string &filepath );
-    std::array<parsed_data_t, 2> from_stdin();
     // IO_VEC ==> VEC<parsed_io>
     std::vector<parsed_IO> to_parsed_IO(parsed_data_t &data_in, const reg_io_type &curr_type);
 }
+
 
 // Namespace Function Definitions
 namespace parsed_IO {

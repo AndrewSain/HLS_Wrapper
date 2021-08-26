@@ -1,6 +1,7 @@
 #ifndef _IO_H_
 #define _IO_H_
 
+// Includes
 #include <iostream>
 #include <array>
 #include <vector>
@@ -10,14 +11,13 @@
 #include "parsed_io.h"
 #include "wrapper.h"
 
-// Defines
-//#define __use_stdin__ // for using stdin to retrieve parsed data instead of loading from a file
 
 // Constants
 /// Filepaths
 static const std::string default_parsed_filepath =   "../inputs/parser.out";   // parsed data pathfile
 static const std::string default_template_filepath = "../template/template.sv"; // Template pathfile
 static const std::string default_wrapper_filepath =  "../outputs/wrapper.sv";  // generated wrapper pathfile
+
 
 // IO Functions
 /// IO Functions for template loading

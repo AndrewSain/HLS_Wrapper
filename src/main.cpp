@@ -1,3 +1,4 @@
+// Includes
 #include "io.h"
 #include "parsed_io.h"
 #include "wrapper.h"
@@ -160,7 +161,7 @@ int main(int argc, char* argv[]) {
                 try {
                     temp_ret = opt_temp_ret.value();
                 } catch (const std::bad_optional_access& e) {
-                    std::cerr << "\nERROR: Main: function \"tl_io_connected\" returned nothing, it encounted an error!\n\n";
+                    std::cerr << "\nERROR: Main: function \"make_wrapper_tl_conn\" returned nothing, it encounted an error!\n\n";
                     return -1;
                 }
                 tl_io_connected.push_back(temp_ret);
