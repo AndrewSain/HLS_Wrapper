@@ -629,7 +629,7 @@ namespace wrapper_gen {
                     feed_out_logic << logic_tabbing.str() << "\tif (k==0) begin\n";
                     feed_out_logic << logic_tabbing.str() << "\t\tif (j==0) begin\n";            
                     feed_out_logic << logic_tabbing.str() << "\t\t\tif (i==0) begin\n";
-                    feed_out_logic << logic_tabbing.str() << "\t\t\t\treg_" << common_name << "[i][j][k][l] <= bus_" << common_name << ";\n";
+                    feed_out_logic << logic_tabbing.str() << "\t\t\t\treg_" << common_name << "[i][j][k][l] <= 0;\n"; //bus_" << common_name << ";\n";
                     feed_out_logic << logic_tabbing.str() << "\t\t\tend else begin\n";
                     feed_out_logic << logic_tabbing.str() << "\t\t\t\treg_" << common_name << "[i][j][k][l] <= reg_" << common_name << "[i-1][" << dimensions[1] << "-1]["
                                                                                                             << dimensions[2] << "-1][" << dimensions[3] << "-1];\n";

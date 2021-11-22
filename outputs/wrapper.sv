@@ -4228,7 +4228,7 @@ if (feed_out_time_o == 1'h1) begin
 						if (k==0) begin
 							if (j==0) begin
 								if (i==0) begin
-									reg_time_o[i][j][k][l] <= bus_time_o;
+									reg_time_o[i][j][k][l] <= 0;
 								end else begin
 									reg_time_o[i][j][k][l] <= reg_time_o[i-1][6-1][9-1][2-1];
 								end
@@ -4326,7 +4326,7 @@ if (feed_out_q_o == 1'h1) begin
 						if (k==0) begin
 							if (j==0) begin
 								if (i==0) begin
-									reg_q_o[i][j][k][l] <= bus_q_o;
+									reg_q_o[i][j][k][l] <= 0;
 								end else begin
 									reg_q_o[i][j][k][l] <= reg_q_o[i-1][12-1][9-1][2-1];
 								end
@@ -4380,7 +4380,7 @@ if (feed_out_cpatr_o == 1'h1) begin
 						if (k==0) begin
 							if (j==0) begin
 								if (i==0) begin
-									reg_cpatr_o[i][j][k][l] <= bus_cpatr_o;
+									reg_cpatr_o[i][j][k][l] <= 0;
 								end else begin
 									reg_cpatr_o[i][j][k][l] <= reg_cpatr_o[i-1][6-1][9-1][2-1];
 								end
@@ -4434,7 +4434,7 @@ if (feed_out_ph_o == 1'h1) begin
 						if (k==0) begin
 							if (j==0) begin
 								if (i==0) begin
-									reg_ph_o[i][j][k][l] <= bus_ph_o;
+									reg_ph_o[i][j][k][l] <= 0;
 								end else begin
 									reg_ph_o[i][j][k][l] <= reg_ph_o[i-1][12-1][9-1][2-1];
 								end
@@ -4488,7 +4488,7 @@ if (feed_out_th11_o == 1'h1) begin
 						if (k==0) begin
 							if (j==0) begin
 								if (i==0) begin
-									reg_th11_o[i][j][k][l] <= bus_th11_o;
+									reg_th11_o[i][j][k][l] <= 0;
 								end else begin
 									reg_th11_o[i][j][k][l] <= reg_th11_o[i-1][3-1][3-1][4-1];
 								end
@@ -4542,7 +4542,7 @@ if (feed_out_th_o == 1'h1) begin
 						if (k==0) begin
 							if (j==0) begin
 								if (i==0) begin
-									reg_th_o[i][j][k][l] <= bus_th_o;
+									reg_th_o[i][j][k][l] <= 0;
 								end else begin
 									reg_th_o[i][j][k][l] <= reg_th_o[i-1][12-1][9-1][2-1];
 								end
